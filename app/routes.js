@@ -1,21 +1,25 @@
-// app/routes.js
+var db = require('./services/db')();
 
 module.exports = function(app, passport) {
 
 	app.get('/', function(req, res) {
-		res.render('index.ejs');
+		res.render('partials/index');
 	});
 
 	app.get('/login', function(req, res) {
-		res.render('login.ejs', { message: req.flash('loginMessage') });
+		res.render('partials/login', { message: req.flash('loginMessage') });
 	});
 
 	//process login form
-	//app.post('/login', do passport stuff here);
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect: '/profile',
+		failureRedirect: '/signup',
+		failureFlash: true
+	}));
 
 	//Sign up form
 	app.get('/signup', function(req, res) {
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
+		res.render('partials/signup', { message: req.flash('signupMessage') });
 	});
 
 	//process signup form
@@ -27,9 +31,14 @@ module.exports = function(app, passport) {
 
 	//Profile section, past authentication
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user: req.user
-		});
+		console.log(req.session)
+		db.get(req.session.passport.user, function(scores) {
+			res.render('partials/profile', {
+				user: req.user,
+				scores: scores
+			});
+		})
+
 	});
 
 	//log out
@@ -37,6 +46,15 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+
+	//Passport routes
+	app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+	app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+		successRedirect : 'partials/profile',
+		failureRedirect : '/'
+	}));
 
 	//route middleware for user authentication
 	function isLoggedIn(req, res, next) {
