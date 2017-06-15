@@ -1,15 +1,15 @@
 (function(){
     console.log('script.js loaded');
 
+
     var getData = function(callback){
      $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/api/scores',
         }).done(function(data){
             var v = [];
-            for(var i = 0; i < data.length; ++ i){
-              v.push({x: data[i].epoch, y: data[i].score});
-
+            for (let date in data){
+              v.push({x: data[date].epoch, y: data[date].score});
             }
             console.log("data: " + JSON.stringify(v));
             callback([
@@ -41,7 +41,6 @@ var loadGraph = function(data){
     ;
 
   d3.select('#chart svg')
-    // .datum(data())
     .datum(data)
     .transition().duration(500)
     .call(chart)

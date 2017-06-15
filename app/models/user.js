@@ -4,18 +4,19 @@ var mongoose = require('mongoose');
 
 //define user schema
 var userSchema = mongoose.Schema({
+	scores: { type: mongoose.Schema.Types.Mixed, default: {} },
 	local: {
 		email: String,
 		password: String,
-		scores: Array,
+		// scores: Array,
 	},
-	facebook: {
-		id: String,
-		token: String,
-		email: String,
-		name: String,
-	}
-});
+	// facebook: {
+	// 	id: String,
+	// 	token: String,
+	// 	email: String,
+	// 	name: String,
+	// }
+}, {minimize: false });
 
 //methods
 //generate hash for passwords

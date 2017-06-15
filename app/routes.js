@@ -13,7 +13,7 @@ module.exports = function(app, passport) {
 	//process login form
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/profile',
-		failureRedirect: '/signup',
+		failureRedirect: '/login',
 		failureFlash: true
 	}));
 
@@ -31,7 +31,6 @@ module.exports = function(app, passport) {
 
 	//Profile section, past authentication
 	app.get('/profile', isLoggedIn, function(req, res) {
-		console.log(req.session)
 		db.get(req.session.passport.user, function(scores) {
 			res.render('partials/profile', {
 				user: req.user,
@@ -60,6 +59,6 @@ module.exports = function(app, passport) {
 	function isLoggedIn(req, res, next) {
 		if (req.isAuthenticated())
 			return next();
-		res.redirect('/');
+		res.redirect('/login');
 	}
 }

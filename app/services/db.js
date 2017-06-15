@@ -2,23 +2,24 @@ var User = require('../models/user');
 
 module.exports = function(){
     return{
-        get: function(id, callback){
+        get: function(id, callback) {
             User.findById(id, function(err, user){
                 if(err || user === null){
                     console.error(err);
                 }else{
                     // console.log(user);
-                    callback(user.local.scores);
+                    callback(user.scores);
                     // return user.scores;
                 }
             });
         },
 
-        update: function(id, data){
+        update: function(id, data) {
             User.findOne({_id: id}, function(err, user){
                 //only handles users signed on by user/pass
-                user.local.scores.push(data);
-                // user.markModified('anything');
+                user.scores[data.date] = data;
+                // user.local.scores.push(data);
+                user.markModified('scores');
                 user.save();
             });
         },
