@@ -13,7 +13,6 @@
 
     var getData = function(callback){
        var base = window.location.href;
-       console.log(base)
        $.ajax({
            type: 'GET',
            url: base + '/api/scores',
@@ -21,8 +20,6 @@
            var v = {x:[], y:[]};
            var happy = 0;
            var sad = 0;
-
-           console.log(data);
 
            for (let obj of data){
                 v.x.unshift(obj.date);
@@ -45,10 +42,6 @@
     };
 
     let loadGraph = function(data) {
-        console.log('loadgraph')
-        console.log(data.values.x)
-        console.log(data.values.y)
-
         count = data.values.x.length;
         $('#mood-count').html(data.values.x.length);
 
