@@ -1,33 +1,43 @@
  $(document).ready(function () {
-     'use strict';
+    'use strict';
 
-     var count;
+    var count;
+    
+    //Delete score from db
+    $('.fa-trash').click(function() {
+        var date = $(this).val();
+        $.post(base +' /api/scores/' + date, {date:date}, function(data, status){
+            window.location.reload();
+        })
+    });
 
-     var getData = function(callback){
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/api/scores',
-        }).done(function(data){
-            var v = {x:[], y:[]};
-            var happy = 0;
-            var sad = 0;
+    var getData = function(callback){
+       var base = window.location.href;
+       console.log(base)
+       $.ajax({
+           type: 'GET',
+           url: base + '/api/scores',
+       }).done(function(data){
+           var v = {x:[], y:[]};
+           var happy = 0;
+           var sad = 0;
 
-            console.log(data);
+           console.log(data);
 
-            for (let obj of data){
+           for (let obj of data){
                 v.x.unshift(obj.date);
                 v.y.unshift(obj.score)
                 if(obj.score > 5) happy+=1;
                 else sad+=1;
-            }
+           }
 
-            $('#happy-days').html(happy);
-            $('#sad-days').html(sad);
+           $('#happy-days').html(happy);
+           $('#sad-days').html(sad);
 
             callback(
                 {
-                    values: v,
-                    key: 'scores',
+                   values: v,
+                   key: 'scores',
                     color: '#ff7f0e'
                 },
             );
@@ -148,13 +158,7 @@
     }
     document.getElementById('date').value = toISO8601(new Date());
 
-    //Delete score from db
-    $('.fa-trash').click(function() {
-        var date = $(this).val();
-        $.post('http://localhost:8080/api/scores/' + date, {date:date}, function(data, status){
-            window.location.reload();
-        })
-    });
+
 
 
  });

@@ -14,7 +14,7 @@ var morgan       = require('morgan');
 var config = require('./config/credentials.js');
 
 //Configuration
-mongoose.connect("mongodb://heroku_pwcr85hb:8fkfpeq3bv7sfnv7g5oansjcm0@ds131312.mlab.com:31312/heroku_pwcr85hb"); //connect to db
+mongoose.connect(process.env.MONGODB_URI); //connect to db
 require('./config/passport')(passport) //configure passport
 
 //Set up express app
