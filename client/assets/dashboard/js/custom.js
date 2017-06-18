@@ -21,6 +21,8 @@
 
 
 
+
+
      /* ===========================================================
          Loads the correct sidebar on window load.
          collapses the sidebar on window resize.
@@ -146,4 +148,5 @@
      $(".navbar-toggle").on("click", function () {
          $(".navbar-toggle i").toggleClass("ti-menu").addClass("ti-close");
      });
+
  });

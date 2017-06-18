@@ -29,6 +29,13 @@ module.exports = function(app) {
         res.redirect('/profile');
     })    
 
+    app.post('/api/scores/:date', function(req, res) {
+        // console.log(req.params.date)
+        var id = req.session.passport.user;
+        db.deleteScore(id, req.params.date);
+        res.redirect('/profile');
+    });
+
     //route middleware for user authentication
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())

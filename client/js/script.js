@@ -23,6 +23,7 @@
     };
 
 var loadGraph = function(data){
+  
   nv.addGraph(function() {
   var chart = nv.models.lineChart()
     .useInteractiveGuideline(true)

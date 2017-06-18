@@ -32,7 +32,6 @@ module.exports = function(app, passport) {
 	//Profile section, past authentication
 	app.get('/profile', isLoggedIn, function(req, res) {
 		db.get(req.session.passport.user, function(scores) {
-			console.log(req.user)
 			res.render('partials/profile', {
 				user: req.user,
 				scores: scores
