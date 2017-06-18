@@ -5,17 +5,17 @@
     
     //Delete score from db
     $('.fa-trash').click(function() {
+        var base = window.location.hostname;
         var date = $(this).val();
-        $.post(base +' /api/scores/' + date, {date:date}, function(data, status){
+        $.post('/api/scores/' + date, {date:date}, function(data, status){
             window.location.reload();
         })
     });
 
     var getData = function(callback){
-       var base = window.location.href;
        $.ajax({
            type: 'GET',
-           url: base + '/api/scores',
+           url:  '/api/scores',
        }).done(function(data){
            var v = {x:[], y:[]};
            var happy = 0;
@@ -149,9 +149,5 @@
       if(m < 10) m = '0' + m;
       return date.getFullYear() + '-' + m + '-' +  d;
     }
-    document.getElementById('date').value = toISO8601(new Date());
-
-
-
-
+    if($('#date').length) $(this).value = toISO8601(new Date());
  });
