@@ -321,7 +321,7 @@ var Chartist = {
     var svg;
 
     width = width || '100%';
-    height = height || '100%';
+    height = height || '80%';
 
     // Check if there is a previous SVG element in the container that contains the Chartist XML namespace and remove it
     // Since the DOM API does not support namespaces we need to manually search the returned list http://www.w3.org/TR/selectors-api/
@@ -803,7 +803,7 @@ var Chartist = {
     var yAxisOffset = hasAxis ? options.axisY.offset : 0;
     var xAxisOffset = hasAxis ? options.axisX.offset : 0;
     // If width or height results in invalid value (including 0) we fallback to the unitless settings or even 0
-    var width = svg.width() || Chartist.quantity(options.width).value || 0;
+    var width = svg.width()-15 || Chartist.quantity(options.width).value || 0;
     var height = svg.height() || Chartist.quantity(options.height).value || 0;
     var normalizedPadding = Chartist.normalizePadding(options.chartPadding, fallbackPadding);
 
@@ -3021,7 +3021,7 @@ var Chartist = {
       // This value specifies the minimum height in pixel of the scale steps
       scaleMinSpace: 20,
       // Use only integer values (whole numbers) for the scale steps
-      onlyInteger: false
+      onlyInteger: true
     },
     // Specify a fixed width for the chart as a string (i.e. '100px' or '50%')
     width: undefined,
@@ -3408,7 +3408,7 @@ var Chartist = {
       // This value specifies the minimum width in pixel of the scale steps
       scaleMinSpace: 30,
       // Use only integer values (whole numbers) for the scale steps
-      onlyInteger: false
+      onlyInteger: true
     },
     // Options for Y-Axis
     axisY: {
@@ -3428,9 +3428,9 @@ var Chartist = {
       // Interpolation function that allows you to intercept the value from the axis label
       labelInterpolationFnc: Chartist.noop,
       // This value specifies the minimum height in pixel of the scale steps
-      scaleMinSpace: 20,
+      scaleMinSpace: 10,
       // Use only integer values (whole numbers) for the scale steps
-      onlyInteger: false
+      onlyInteger: true
     },
     // Specify a fixed width for the chart as a string (i.e. '100px' or '50%')
     width: undefined,
