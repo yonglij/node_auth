@@ -132,7 +132,6 @@
 
      //popup for adding mood
     $('#add-mood').click(function(){
-        console.log('popup clicked')
         $('#about_popup').popup({
             pagecontainer: '.row',
             transition: 'all 0.3s',
@@ -149,5 +148,5 @@
       if(m < 10) m = '0' + m;
       return date.getFullYear() + '-' + m + '-' +  d;
     }
-    if($('#date').length) $(this).val(toISO8601(new Date()));
+    if($('#date').length) $('#date').val(toISO8601(new Date()));
  });
