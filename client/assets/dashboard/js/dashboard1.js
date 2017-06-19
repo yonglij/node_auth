@@ -149,5 +149,5 @@
       if(m < 10) m = '0' + m;
       return date.getFullYear() + '-' + m + '-' +  d;
     }
-    if($('#date').length) $(this).value = toISO8601(new Date());
+    if($('#date').length) $(this).val(toISO8601(new Date()));
  });
