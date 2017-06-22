@@ -32,15 +32,10 @@ module.exports = function(){
         deleteScore:function(id, date){
             //delete an entry for user: id
             User.findOne({_id: id}, function(err, user) {
-                console.log("delete date " + date)
-                console.log(user.scores[date])
                 delete user.scores[date];
-                // console.log(user.scores)
                 user.markModified('scores');
                 user.save();
             });
         }
-
-
     };
 };

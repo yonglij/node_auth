@@ -1,9 +1,21 @@
  $(document).ready(function () {
     'use strict';
 
-    var count;
-    
-    //Delete score from db
+    let months = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var populateTable = function(scores) {
+        var html = '';
+        $('#scoresTable tbody').html(html);
+        for (let entry of scores){
+            html += '<tr>' +
+                    '<td>' + entry.date + '</td>' +
+                    '<td>' + entry.score + '</td>' +
+                    '<td class="txt-oflo">' + entry.comment + '</td>' +
+                    '<td><button class="fa fa-trash rb" value="' + entry.date + '"></button></td>' +
+                    '</tr>';
+        }
+        $('#scoresTable tbody').html(html);
+    }
+
     $('.fa-trash').click(function() {
         var base = window.location.hostname;
         var date = $(this).val();
@@ -12,37 +24,41 @@
         })
     });
 
-    var getData = function(callback){
+    var getData = function(graph, filter, happySadWidget){
        $.ajax({
            type: 'GET',
            url:  '/api/scores',
        }).done(function(data){
            var v = {x:[], y:[]};
+           var scoresArrangedByMonths = {};
            var happy = 0;
            var sad = 0;
 
            for (let obj of data){
+                var yyMM = obj.date.substring(0,7);
+                if (yyMM in scoresArrangedByMonths) scoresArrangedByMonths[yyMM].push(obj);
+                else scoresArrangedByMonths[yyMM] = [obj];
+
                 v.x.unshift(obj.date);
                 v.y.unshift(obj.score)
                 if(obj.score > 5) happy+=1;
                 else sad+=1;
-           }
+            }
 
-           $('#happy-days').html(happy);
-           $('#sad-days').html(sad);
+            happySadWidget(happy, sad)
 
-            callback(
+            filter(scoresArrangedByMonths);
+            graph(
                 {
                    values: v,
                    key: 'scores',
-                    color: '#ff7f0e'
+                   color: '#ff7f0e'
                 },
             );
         }); 
     };
 
     let loadGraph = function(data) {
-        count = data.values.x.length;
         $('#mood-count').html(data.values.x.length);
 
         var options = {
@@ -74,18 +90,36 @@
             },
             axisX: {
                 labelInterpolationFnc: function (value) {
-                    return value.substring(6);
-
+                    return value.substring(5);
                 }
             },
             showArea: true
         });
 
-         // counter
          $('.counter').counterUp({
             delay: 100,
             time: 1200
          });
+    }
+
+    let applyMonthsFilter = function(scoresArrangedByMonths) {
+        var filters = [];
+
+        for (let key in scoresArrangedByMonths) {
+            let year = key.substring(0,4);
+            let month = key.substring(5,7)
+            $('#scoreFilter').append('<option value="' + year + '-' + month + '">'+ months[parseInt(month)] + " " + year + '</option>');
+        }
+
+        $('#scoreFilter').change(function() {
+            let selectedMonth = $(this).val();
+            populateTable(scoresArrangedByMonths[selectedMonth]);
+        });
+    }
+
+    let populateHappySadWidget = function(happy, sad) {
+       $('#happy-days').html(happy);
+       $('#sad-days').html(sad);
     }
 
      var sparklineLogin = function () {
@@ -128,10 +162,10 @@
          sparkResize = setTimeout(sparklineLogin, 500);
      });
      sparklineLogin();
-     getData(loadGraph);
+     getData(loadGraph, applyMonthsFilter, populateHappySadWidget);
 
      //popup for adding mood
-    $('#add-mood').click(function(){
+    $('#add-mood').click(function() {
         $('#about_popup').popup({
             pagecontainer: '.row',
             transition: 'all 0.3s',
@@ -139,6 +173,7 @@
             vertical: 'top'       
         });
     });
+
 
     //set default date to today
     function toISO8601(date) {

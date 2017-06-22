@@ -46,7 +46,6 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
-
 	//Passport routes
 	app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
