@@ -61,40 +61,53 @@
     let loadGraph = function(data) {
         $('#mood-count').html(data.values.x.length);
 
-        var options = {
-            high: 10,
-            low: 0,
-            scaleMinSpace: 1,
-            onlyInteger: true
-        }
+        var config = {
+            type: 'line',
+            data: {
+                labels: data.values.x,
+                datasets: [{
+                    label: "score",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: data.values.y,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Mood Score'
+                        }
+                    }]
+                }
+            }
+        };
 
-         //ct-visits
-         new Chartist.Line('#ct-visits', {
-            labels: data.values.x,
-            series: [data.values.y]
-         }, {
-            top: 0,
-            high: 10,
-            low: 0,
-            scaleMinSpace: 1,
-            onlyInteger: true,
-            showPoint: true,
-            fullWidth: true,
-            plugins: [
-                Chartist.plugins.tooltip()
-            ],
-            axisY: {
-                labelInterpolationFnc: function (value) {
-                 return (value / 1);
-                }
-            },
-            axisX: {
-                labelInterpolationFnc: function (value) {
-                    return value.substring(5);
-                }
-            },
-            showArea: true
-        });
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myLine = new Chart(ctx, config);
 
          $('.counter').counterUp({
             delay: 100,

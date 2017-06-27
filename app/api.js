@@ -30,7 +30,6 @@ module.exports = function(app) {
     })    
 
     app.post('/api/scores/:date', function(req, res) {
-        // console.log(req.params.date)
         var id = req.session.passport.user;
         db.deleteScore(id, req.params.date);
         res.redirect('/profile');

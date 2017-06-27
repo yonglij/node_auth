@@ -1,8 +1,11 @@
+
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
         </svg>
     </div>
+
+
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
@@ -83,7 +86,8 @@
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <div class="white-box-graph">
                             <h3 class="box-title">Mood</h3>
-                            <div id="ct-visits" style="height: 405px;"></div>
+                                <canvas id="canvas"></canvas>
+                            <!-- <div id="ct-visits" style="height: 405px;"></div> -->
                         </div>
                     </div>
                 </div>
@@ -172,9 +176,8 @@
     <!--Counter js -->
     <script src="assets/dashboard/plugins/waypoints/lib/jquery.waypoints.js"></script>
     <script src="assets/dashboard/plugins/counterup/jquery.counterup.min.js"></script>
-    <!-- chartist chart -->
-    <script src="assets/dashboard/plugins/chartist-js/dist/chartist.js"></script>
-    <script src="assets/dashboard/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- CHART JS -->
+    <script src="assets/dashboard/js/Chart.bundle.js"></script>
     <!-- Sparkline chart JavaScript -->
     <script src="assets/dashboard/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!-- Custom Theme JavaScript -->
